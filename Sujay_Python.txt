@@ -1,0 +1,79 @@
+#I do not experience in JASON or Django so here I am sending just the logic or python script for the given problem
+
+#Query string validation problem
+#function to check the parenthesis pattern
+def is_matching(s) -> bool:
+    while len(s)>0:
+        l=len(s)
+        s=s.replace('()','').replace('{}','').replace('[]','')
+        if l==len(s):return False
+    return True
+value =input()
+s=""
+t=""
+for val in value:
+    if(val == '(' or val == ')' or val == '[' or val == ']' or val == '{' or val == '}'):
+        s= s+val
+    else:
+        t=t+val if(val != ' ') else t
+b = is_matching(s)
+# to return corresponding word for the operator
+def  is_and_or(ch):
+    output = ""
+    if(ch == "||"):
+        output = "or"
+    else:
+        output = "and" #assuming the given format has either || or &&
+    return output
+if(b): #if the syntax of expression is correct
+    #assuming there is always two innner and outer operation
+    mid = is_and_or(t[8:10])
+    m2 = is_and_or(t[13:15])
+    m1 = is_and_or(t[3:5])
+    print ('''  query:[
+                    {0}:[
+                         [
+                            {1}: [
+                                {2},
+                                {3}
+                                 ]
+                        ],
+                            [
+                            {4}:[
+                                {5}
+                                {6}
+                                ]
+                            ]
+                        ]
+                        ]''' .format(mid,m1,t[0:3],t[5:8],m2,t[10:13],t[15:]))
+else:
+    print("Syntax invalid")
+
+
+
+
+#Employee details problem
+#2 asuuming we can load a table from a csv file or any other source so I have hard coded the data entry
+dict ={
+    "H":["Emp ID  -17","Emp Name - H", "CEO No manager"],
+    "A":["Emp ID  -17","Emp Name - A", "Emp Manager - H"],
+    "B":["Emp ID  -19","Emp Name - B", "Emp Manager - A"],
+    "C":["Emp ID  -18","Emp Name - C", "Emp Manager - B"],
+    "D":["Emp ID  -21","Emp Name - D", "Emp Manager - C"],
+    "E":["Emp ID  -45","Emp Name - E", "Emp Manager - D"],
+    "F":["Emp ID  -13","Emp Name - F", "Emp Manager - E"]
+}
+#details of employee till CEO
+def employee_details(s):
+	print(dict.get(s))
+	if(s == "H"):
+		print("You have reached the CEO")
+	else:
+		li=dict.get(s)
+		#str = (string)li[2]
+		st = li[2].split(' ')
+		s =st[len(st)-1]
+		employee_details(s)
+
+s =input("Enter the employe name - " ,)
+employee_details(s)
